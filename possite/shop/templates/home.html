@@ -41,7 +41,7 @@
             <div class="subfunc rounded" id="product_list">
                 <h3>Products</h3>
                 <hr class="mb-4">
-                <form method="POST" action="{% url 'home' do_what='search' %}">
+                <form method="POST" action="{% url 'home' %}">
                     {% csrf_token %}
                     <div class="row">
                         <div class="col-lg-12 col-md-12 col-sm-12 col-12 mb-3">
@@ -83,11 +83,12 @@
                                     <p class="card-text"><b>{{product.name}}</b> ({{product.type.name}})</p>
                                     <p class="card-text text-secondary">{{product.description}}</p>
                                     <p class="card-text">{{product.price}} ฿</p>
-                                    <form method="POST" action="{% url 'home' do_what=product.id %}">
-                                    {% csrf_token %}
+                                    <form method="POST" action="{% url 'home' %}">
+                                        {% csrf_token %}
                                         <div class="row">
                                             <div class="col-5">
                                                 <input type="number" min=0 max="50" class="form-control" id="amountp" name="amountp">
+                                                <input type="hidden" value="{{product.id}}" class="form-control" id="productid" name="productid">
                                             </div>
                                             <div class="col-7">
                                                 <button type="submit" class="btn btn-outline-secondary mybtn-addcart">add to cart</button>
@@ -109,14 +110,14 @@
                 <hr class="mb-4">
                 <ul class="list-group mb-3">
                     <li class="list-group-item disabled">in cart</li>
-                    {% for o in order_list %}
+                    {% comment %} {% for o in order_list %}
                     <li class="list-group-item text-let">
                         <div class="row">
                             <div class="col-6">o.product_id.name ({{o.amount}})</div>
                             <div class="col-6"><button type="button" class="btn btn-outline-secondary mybtn-sale">delete</button></div>
                         </div>
                     </li>
-                    {% endfor %}
+                    {% endfor %} {% endcomment %}
                 </ul>
                 <button type="button" class="btn btn-outline-secondary mybtn-sale" style="width:100%">sale</button>
             </div>

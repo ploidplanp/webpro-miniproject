@@ -44,45 +44,35 @@ def mylogout(request):
 # ------------------------------
 
 @login_required
-def home(request, do_what):
+def home(request):
     search_product = request.POST.get('inputSearch', '')
     search_type = request.POST.get('selectSearch', '')
-    
+
+    getpdid = request.POST.get('productid', '')
+    print('----------')
+    print(getpdid)
+    print('-----------')
+
     type_list = Type.objects.all().order_by('id')
     product_list = Product.objects.all().order_by('id')
-
-    order_list = ''
-    order = Order()
     
     if request.method == 'POST':
-        if do_what == 'search':
-            if search_type != 'Choose...' and search_product != '':
-                product_list = Product.objects.filter(type=search_type, name__icontains=search_product).order_by('id')
-            elif search_type != 'Choose...':
-                product_list = Product.objects.filter(type=search_type).order_by('id')
-            elif search_product != '':
-                product_list = Product.objects.filter(name__icontains=search_product).order_by('id')
-        # ------------------------
-        if do_what.isdigit():
-            if request.POST.get('amountp', '') != '' and request.POST.get('amountp', '') != '0':
-                product = Product.objects.get(pk=do_what)
-                # order_list = Order_Products.objects.create(
-                #     order_id = order.objects.get(pk),
-                #     product_id_id = product.id,
-                #     amount = request.POST.get('amountp', '')
-                # )
-                print(order.total_price)
-                print(product.name, product.id)
-                print('add:(' + do_what + ')' + product.name + ' x ' + request.POST.get('amountp', ''))
-            else:
-                order_list = Order_Products.objects.none()
+        # Search
+        if search_type != 'Choose...' and search_product != '':
+            product_list = Product.objects.filter(type=search_type, name__icontains=search_product).order_by('id')
+            print('search: ' + search_type, search_product)
+        elif search_type != 'Choose...':
+            product_list = Product.objects.filter(type=search_type).order_by('id')
+            print('search: ' + search_type)
+        elif search_product != '':
+            product_list = Product.objects.filter(name__icontains=search_product).order_by('id')
+
 
     context = {
         'search_product': search_product,
         'search_type': search_type,
         'type_list': type_list,
         'product_list': product_list,
-        'order_list': order_list
     }
 
     return render(request, 'home.html', context=context)
