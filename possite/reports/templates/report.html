@@ -1,0 +1,137 @@
+{% extends "base.html" %} {% block content %}
+<style>
+    .mycol .mybtn {
+        width: 100%;
+        padding: 5%;
+    }
+    .mycolor-1 {
+        background-color: #dbcc8f;
+    }
+    .mycolor-2 {
+        background-color: #e2c275;
+    }
+    
+    .mybtn {
+        {% comment %} color: #d1cebd; {% endcomment %}
+        color: #ffffff;
+        background-color: transparent;
+        background-image: none;
+        {% comment %} border-color: #d1cebd; {% endcomment %}
+        border-color: #ffffff;
+    }
+    
+    .mybtn:hover {
+        {% comment %} border-color: #d1cebd;
+        background-color: #d1cebd; {% endcomment %}
+        border-color: #f4f4f4;
+        background-color: #f4f4f4;
+        color: #89a3b2;
+    }
+    
+    .mycontainer {
+        width: 80%;
+    }
+
+</style>
+<div class="container mb-5">
+    <h1>Shop Report</h1>
+    <div class="row mb-5 mt-4">
+        <div class="col-lg-3 col-md-6 mt-3 mycol mycolor-1 rounded">
+        <form method="POST" action="{% url 'show' reportlist='rep_day' %}">
+        {% csrf_token %}
+            <div class="row">
+                <div class="col-12 mt-5">
+                    <button type="submit" class="mybtn btn btn-outline-primary ">Day</button>
+                </div>
+                <div class="col-12 mt-3 mb-5">
+                    <input type="date" class="form-control" id="search_day" name="search_day" required>
+                </div>
+            </div>
+        </form>
+        </div>
+
+        <div class="col-lg-3 col-md-6 mt-3 mycol mycolor-2 rounded">
+        <form method="POST" action="{% url 'show' reportlist='rep_week' %}">
+        {% csrf_token %}
+            <div class="row">
+                <div class="col-12 mt-5">
+                    <button type="submit" class="mybtn btn btn-outline-primary">Week</button>
+                </div>
+                <div class="col-12 mt-3 mb-5">
+                    <input type="week" class="form-control" id="search_week" name="search_week" required>
+                </div>
+            </div>
+        </form>
+        </div>
+
+        <div class="col-lg-3 col-md-6 mt-3 mycol mycolor-1 rounded">
+        <form method="POST" action="{% url 'show' reportlist='rep_month' %}">
+        {% csrf_token %}
+               <div class="row">
+                <div class="col-12 mt-5">
+                    <button type="submit" class="mybtn btn btn-outline-primary">Month</button>
+                </div>
+                <div class="col-12 mt-3">
+                    <select class="custom-select" id="search_month" name="search_month">
+                        <option value='Choose...' selected>Choose...</option>
+                        {% for i in month_list %}
+                            <option value='{{forloop.counter}}'>{{i}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+        </form>
+        </div>
+
+        <div class="col-lg-3 col-md-6 mt-3 mycol mycolor-2 rounded">
+        <form method="POST" action="{% url 'show' reportlist='rep_year' %}">
+        {% csrf_token %}
+                <div class="row">
+                <div class="col-12 mt-5">
+                    <button type="submit" class="mybtn btn btn-outline-primary">Year</button>
+                </div>
+                <div class="col-12 mt-3">
+                    <select class="custom-select" id="search_year" name="search_year">
+                        <option value='Choose...' selected>Choose...</option>
+                        <option value='2020'>2020</option>
+                        <option value='2019'>2019</option>
+                        <option value='2018'>2018</option>
+                    </select>
+                </div>
+            </div>
+        </form> 
+        </div>
+    </div>
+
+    <hr class="mt-5">
+    <div class="row">
+        <div class="col-8">
+            <p><b>Total:</b></p>
+        </div>
+        <div class="col-4 text-right">
+            <p><b>{{sum}} ฿</b></p>
+        </div>
+    </div>
+
+        <table class="table table-hover mt-3">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">{{msg}}</th>
+      <th scope="col" class="text-right">Price</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for o in allorder %}
+    <tr>
+        <td>{{forloop.counter}}</td>
+      <td>{{o.date_time}}</td>
+      <td class="text-right">{{o.total_price}} ฿</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+    
+</div>
+
+{% endblock %}

@@ -1,0 +1,27 @@
+{% extends "base.html" %} {% block content %}
+<div class="container mb-5">
+    <h1>Type List</h1>
+    <a href="{% url 'add_type' %}" class="btn btn-outline-info mt-3">Add Type</a>
+    <table class="table table-collapse mb-5 mt-5">
+        <thead>
+            <tr>
+                <th class="text-center " scope="col ">#</th>
+                <th class="" scope="col ">Type Name</th>
+                <th class="text-center " scope="col ">Description</th>
+                <th class="text-center " scope="col "></th>
+                <th class="text-center " scope="col "></th>
+            </tr>
+        </thead>
+        {% for type in type_list %}
+        <tr>
+            <td>{{forloop.counter}}</td>
+            <td>{{type.name}}</td>
+            <td>{{type.description}}</td>
+            <td><a href="{% url 'edit_type' type_id=type.id %}" class="btn btn-warning">edit</a></td>
+            <td><a href="{% url 'delete_type' type_id=type.id %}" class="btn btn-danger">delete</a></td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+
+{% endblock %}

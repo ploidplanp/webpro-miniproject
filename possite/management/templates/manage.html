@@ -1,0 +1,62 @@
+{% extends "base.html" %} {% block content %}
+<div class="container mb-5">
+    <h1>Manage Product</h1>
+    <form method="POST" action="{% url 'manage' %}">
+        {% csrf_token %}
+        <div class="row mt-5">
+            <div class="col-lg-4 col-md-6 col-12">
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" for="search">product name</span>
+                    </div>
+                        <input type="text" class="form-control" id="inputSearch" name="inputSearch" placeholder="searching product" value="{{search_product}}">
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6 col-12">
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <label class="input-group-text">type</label>
+                    </div>
+                    <select class="custom-select" id="selectSearch" name="selectSearch">
+                        <option selected>Choose...</option>
+                        {% for type in type_list %}
+                            <option value='{{type.id}}'>{{type.name}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-12 col-12">
+                <button type="submit" class="btn btn-outline-secondary" style="width: 100%;">search</button>
+            </div>
+        </div>
+    </form>
+
+    <div class="mt-3 mb-5">
+        <a href="{% url 'add_product' %}" class="btn btn-outline-info">Add Product</a>
+        <a href="{% url 'add_type' %}" class="btn btn-outline-info">Add Type</a>
+        <a href="{% url 'alltype' %}" class="btn btn-outline-info">Type List</a>
+    </div>
+    <table class="table table-collapse mb-5">
+        <thead>
+            <tr>
+                <th scope="col ">#</th>
+                <th scope="col ">Name</th>
+                <th scope="col ">Type</th>
+                <th scope="col ">Price</th>
+                <th scope="col "></th>
+                <th scope="col "></th>
+            </tr>
+        </thead>
+        {% for product in product_list%}
+        <tr>
+            <td>{{forloop.counter}}</td>
+            <td>{{product.name}}</td>
+            <td>{{product.type.name}}</td>
+            <td><a href="{% url 'edit_product' product_id=product.id %}" class="btn btn-outline-warning">edit</a></td>
+            <td><a href="{% url 'delete_product' product_id=product.id %}" class="btn btn-outline-danger">delete</a></td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+
+{% endblock %}

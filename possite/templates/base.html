@@ -1,0 +1,57 @@
+<!DOCTYPE html> 
+{% load static %}
+
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>MY POS STORE</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.css'%}">
+    <style>
+        .mynav ul li {
+            font-size: 1.5em;
+        }
+        
+        .myfooter {
+            background-color: #f6eedf;
+        }
+    </style>
+
+</head>
+
+<body>
+    <nav class="mynav navbar navbar-expand-lg navbar-light bg-light">
+        {% comment %} <a class="navbar-brand" href="#">HOME</a> {% endcomment %}
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <img src="/static/img/brand.jpg" width="30" height="30" alt="">
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'home' do_what='product' %}">home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'manage' %}">manage</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'show' reportlist='rep_all' %}">report</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'mylogout' %}">logout</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <br>
+    <div class="container-fluid mb-3">
+        {% block content %} {% endblock %}
+    </div>
+    <script type="text/javascript" src="{% static 'js/bootstrap.min.js' %}"></script>
+</body>
+
+</html>
