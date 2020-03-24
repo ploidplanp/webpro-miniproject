@@ -6,7 +6,7 @@ class Order_ProductInline(admin.StackedInline):
     extra = 1
 
 class OrderAdmin(admin.ModelAdmin):
-    list_display = ['id', 'date_time', 'total_price']
+    list_display = ['id', 'date_time', 'total_price', 'confirm']
     list_filter = ['date_time', 'total_price']
     search_fields = ['date_time']
     list_per_page = 20

@@ -23,7 +23,6 @@
 
 <body>
     <nav class="mynav navbar navbar-expand-lg navbar-light bg-light">
-        {% comment %} <a class="navbar-brand" href="#">HOME</a> {% endcomment %}
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -48,9 +47,19 @@
         </div>
     </nav>
     <br>
+
     <div class="container-fluid mb-3">
-        {% block content %} {% endblock %}
+        <div class="row">
+            <div class="col-lg-7 col-md-7 col-sm-12 col-12 text-center mb-3">
+                {% block content1 %} {% endblock %}
+            </div>
+
+            <div class="col-lg-5 col-md-5 col-sm-12 col-12 text-center mb-3">
+                {% block content2 %} {% endblock %}
+            </div>
+        </div>
     </div>
+    <script type="text/javascript" src="{% static 'js/bootstrap.min.js' %}"></script>
 </body>
 
 </html>

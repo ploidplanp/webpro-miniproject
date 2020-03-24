@@ -9,7 +9,13 @@
     }
     
     #cart {
-        {% comment %} background-color: #bac7a7; {% endcomment %}
+        {
+            % comment %
+        }
+        background-color: #bac7a7;
+        {
+            % endcomment %
+        }
         border: 1px solid #464159;
         box-shadow: 1px 2px 4px rgba(0, 0, 0, .5);
     }
@@ -68,9 +74,9 @@
                             </div>
                         </div>
                         <div class="col-lg-12 col-md-12 col-sm-12 col-12 mb-5">
-                            <button type="submit" class="btn btn-outline-secondary" style="width:100%">search</button>
+                            {% comment %} <input type="submit" class="btn btn-outline-secondary" style="width:100%" name="formsearch" value="search" /> {% endcomment %}
+                            <button type="submit" class="btn btn-outline-secondary" style="width:100%" name="formsearch">search</button>
                         </div>
-
                     </div>
                 </form>
 
@@ -83,18 +89,20 @@
                                     <p class="card-text"><b>{{product.name}}</b> ({{product.type.name}})</p>
                                     <p class="card-text text-secondary">{{product.description}}</p>
                                     <p class="card-text">{{product.price}} ฿</p>
+
                                     <form method="POST" action="{% url 'home' %}">
                                         {% csrf_token %}
                                         <div class="row">
-                                            <div class="col-5">
-                                                <input type="number" min=0 max="50" class="form-control" id="amountp" name="amountp">
-                                                <input type="hidden" value="{{product.id}}" class="form-control" id="productid" name="productid">
+                                            <div class="col-lg-12 col-md-12 col-sm-12">
+                                                <input type="number" min=0 max="50" class="form-control" id="amountp" name="amountp" placeholder="amount">
                                             </div>
-                                            <div class="col-7">
-                                                <button type="submit" class="btn btn-outline-secondary mybtn-addcart">add to cart</button>
+                                            <div class="col-lg-12 col-md-12 col-sm-12 mt-3">
+                                                <input type="hidden" name="pickname" value="{{product.id}}" />
+                                                <button type="submit" class="btn btn-outline-secondary mybtn-addcart" name="formadd">add to cart</button>
                                             </div>
                                         </div>
                                     </form>
+
                                 </div>
                             </div>
                         </div>
@@ -110,16 +118,32 @@
                 <hr class="mb-4">
                 <ul class="list-group mb-3">
                     <li class="list-group-item disabled">in cart</li>
-                    {% comment %} {% for o in order_list %}
+                    {% for m in makingorder %}
                     <li class="list-group-item text-let">
+                        <form method="POST" action="{% url 'home' %}">
+                        {% csrf_token %}
                         <div class="row">
-                            <div class="col-6">o.product_id.name ({{o.amount}})</div>
-                            <div class="col-6"><button type="button" class="btn btn-outline-secondary mybtn-sale">delete</button></div>
+                            <div class="col-6 text-left">{{forloop.counter}}. {{m.product_id.name}} {{m.product_id.price}} x ({{m.amount}})</div>
+                            <input type="hidden" name="throwout" value="{{m.id}}" />
+                            <div class="col-6 text-right"><button type="submit" class="btn btn-outline-secondary mybtn-sale" name="formdelete">delete</button></div>
+                        </form>
                         </div>
                     </li>
-                    {% endfor %} {% endcomment %}
+                    {% endfor %}
                 </ul>
-                <button type="button" class="btn btn-outline-secondary mybtn-sale" style="width:100%">sale</button>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">total</span>
+                    </div>
+                    <input type="text" class="form-control text-right" value="{{pay}}" readonly>
+                    <div class="input-group-append">
+                        <span class="input-group-text">฿</span>
+                    </div>
+                </div>
+                <form method="POST" action="{% url 'home' %}">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-outline-secondary mybtn-sale" style="width:100%" name="formsale">sale</button>
+                </form>
             </div>
         </div>
     </div>

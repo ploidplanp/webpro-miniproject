@@ -10,7 +10,7 @@ from shop.models import Order, Order_Products
 # Create your views here.
 @login_required
 def show(request, reportlist):
-    allorder = Order.objects.all().order_by('-date_time')
+    allorder = Order.objects.filter(confirm=True).order_by('-date_time', '-id')
     today = datetime.today()
     sum = 0
     msg = 'All Order'
@@ -20,19 +20,19 @@ def show(request, reportlist):
     if request.method == 'POST':
         if reportlist == 'rep_day':
             search_day = request.POST.get('search_day', '')
-            allorder = Order.objects.filter(date_time=search_day).order_by('-date_time')
+            allorder = Order.objects.filter(date_time=search_day, confirm=True).order_by('date_time', 'id')
             msg = search_day[8:] + '/' + search_day[5:7] + '/' + search_day[0:4]
         elif reportlist == 'rep_week':
             search_week = request.POST.get('search_week', '')
-            allorder = Order.objects.filter(date_time__week=search_week[6:]).order_by('-date_time')
+            allorder = Order.objects.filter(date_time__week=search_week[6:], confirm=True).order_by('date_time', 'id')
             msg = search_week
         elif reportlist == 'rep_month' and request.POST.get('search_month', '') != 'Choose...':
             search_month = request.POST.get('search_month', '')
-            allorder = Order.objects.filter(date_time__month=search_month).order_by('-date_time')
+            allorder = Order.objects.filter(date_time__month=search_month, confirm=True).order_by('date_time', 'id')
             msg = month_list[int(search_month)-1]
         elif reportlist == 'rep_year' and request.POST.get('search_year', '') != 'Choose...':
             search_year = request.POST.get('search_year', '')
-            allorder = Order.objects.filter(date_time__year=search_year).order_by('-date_time')
+            allorder = Order.objects.filter(date_time__year=search_year, confirm=True).order_by('date_time', 'id')
             msg = search_year
 
     for i in allorder:
